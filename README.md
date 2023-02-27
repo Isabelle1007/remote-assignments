@@ -11,15 +11,6 @@ The brief description of the assignments are as belowed:
 
 ## Environment requirements
 
-- "Telnet" installed (recommended)
-- "MySQL" installed
-
-## How to use
-
-To test the database connection, type the following:
-```
-telnet <database host name> 3306
-```
 
 ## References
 - Offical Tutorials of [AWS](https://aws.amazon.com/tw/) 
