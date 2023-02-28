@@ -40,7 +40,7 @@ app.get('/healthcheck', (req, res) => {
 // set up a development server listening on port 3000
 const port = 3000;
 app.listen(process.env.APP_PORT, () => {
-    console.log(`The server is running on port ${process.env.APP_PORT}`)
+    console.log(`The server is running on port ${port}`)
 });
 
 // pool.query(
