@@ -24,25 +24,25 @@ function pw_validation(pw){
         return false
 }
 
-function email_validation(email){
-    console.log(email)
-    email = JSON.parse(email)
-    pool.query(
-        'select * from user where email = ?',
-        [email],
-        (err, results, fields) => {
-            // console.log(results.length)
-            if(err){
-                console.log(err);
-                return false
-            }
-            if(results.length > 0)
-                return false
-            else
-                return true
-        }
-    )
-}
+// function email_validation(email){
+//     console.log(email)
+//     email = JSON.parse(email)
+//     pool.query(
+//         'select * from user where email = ?',
+//         [email],
+//         (err, results, fields) => {
+//             // console.log(results.length)
+//             if(err){
+//                 console.log(err);
+//                 return false
+//             }
+//             if(results.length > 0)
+//                 return false
+//             else
+//                 return true
+//         }
+//     )
+// }
 
 module.exports = {
     createUser: (req, res) => {
