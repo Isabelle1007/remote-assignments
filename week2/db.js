@@ -1,7 +1,7 @@
 const mysql = require('mysql2')
 
 const DB_PORT = 3306
-const DB_HOSR = "mysql00.cooo3yiqpu2z.ap-northeast-1.rds.amazonaws.com"
+const DB_HOST = "mysql00.cooo3yiqpu2z.ap-northeast-1.rds.amazonaws.com"
 const DB_USER = "Isabelle"
 const DB_PASSWORD = "20001007"
 const MYSQL_DB = "assignment"
