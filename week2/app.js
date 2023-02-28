@@ -1,75 +1,58 @@
 const express = require('express');
-// const bodyParser = require('body-parser');
-const mysql = require('mysql2');
-// const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
+// const mysql = require('mysql2');
+const dotenv = require('dotenv');
+dotenv.config();
+const userRouter = require('./user.router');
+const crypto = require("crypto");
+const pool = require('./db')
 
-// dotenv.config();
+// const morgan = require('morgan');
+// const cors = require('cors');
+// const helmet = require('helmet');
+
 const app = express(); // returns an express application
 
-// simplify the HTTP text --> console.log(req.body.text)
-// app.use(bodyParser.json());
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: false}))
 
-// set up a development server listening on port 3000
-const port = 3000;
-app.listen(port, () => {
-    console.log(`The server is running on port ${port}`)
+// parse application/json ( simplify the HTTP text --> console.log(req.body.text) )
+app.use(bodyParser.json());
+
+// enabling CORS for all requests
+// app.use(cors());
+app.use(function(req, res, next) {
+    res.setHeader("Content-Type", "application/json");
+    next();
 });
 
+// adding morgan to log HTTP requests
+// app.use(morgan('combined'));
+
 app.get('/', (req, res) => { // parameter: path, callback
-    res.send('<h2>Hi, welcome to the root page</h2>');
+    res.json('Hi, welcome to the root page');
 });
 
 app.get('/healthcheck', (req, res) => { 
-    res.send('This is the first API named healthcheck');
+    res.json('This is the API named healthcheck');
 });
 
-// Create DB
-const db = mysql.createConnection({
-    connectionLimit: 10,
-    // host: "newdb.cooo3yiqpu2z.ap-northeast-1.rds.amazonaws.com",
-    host: "mysql00.cooo3yiqpu2z.ap-northeast-1.rds.amazonaws.com",
-    // host: "localhost",
-    user: "Isabelle",
-    password: "20001007",
-    database: "assignment",
-    port: 3306
+// set up a development server listening on port 3000
+const port = 3000;
+app.listen(process.env.APP_PORT, () => {
+    console.log(`The server is running on port ${process.env.APP_PORT}`)
 });
 
-db.connect(function(error){
-    if(error)
-    {
-        throw error;
-    }
-    else
-    {
-        console.log("Database is connected successfully.");
-    }
-});
+// pool.query(
+//     'SELECT * FROM user', 
+//     function(err, results, fields) {
+//         console.log('query success')
+//         // console.log(results) // results contains rows returned by server
+//         // console.log(fields) // fields contains extra meta data about results, if available
+// })
 
-// simple query
-db.query(
-    'SELECT * FROM `user`', function(err, results, fields) {
-    //   console.log(results); // results contains rows returned by server
-    //   console.log(fields); // fields contains extra meta data about results, if available
-    console.log(err);
-    }
-);
+app.use('/users', userRouter);
 
-// API POST
-app.post('/users', (req, res) => {
-
-})
-
-// API GET
-app.get('/users', (req, res) => {
-
-    
-})
-
-// regular expression
-function validation(name, email, password){
-
-}
 
 
 
