@@ -1,15 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const mysql = require('mysql2');
 const dotenv = require('dotenv');
 dotenv.config();
 const userRouter = require('./user.router');
-const crypto = require("crypto");
 const pool = require('./db')
-
-// const morgan = require('morgan');
-// const cors = require('cors');
-// const helmet = require('helmet');
 
 const app = express(); // returns an express application
 
@@ -20,14 +14,10 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
 
 // enabling CORS for all requests
-// app.use(cors());
 app.use(function(req, res, next) {
     res.setHeader("Content-Type", "application/json");
     next();
 });
-
-// adding morgan to log HTTP requests
-// app.use(morgan('combined'));
 
 app.get('/', (req, res) => { // parameter: path, callback
     res.json('Hi, welcome to the root page');

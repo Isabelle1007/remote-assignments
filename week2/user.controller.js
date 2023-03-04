@@ -1,59 +1,66 @@
 // const { create } = require('./user.service')
 // const { response } = require('express');
+const emailValidator = require('deep-email-validator');
 const pool = require('./db')
 
+// async function email_exist_check(e){
+//     try{
+//         const results = await pool.query('select * from user where email = ?',[e])
+//         if(results[0].length > 0)
+//             return true;
+//         else
+//             return false;
+//     }catch(err){
+//         console.log(err);
+//         res.status(500).json({
+//             message: "Database Connection Error."
+//         })
+//     }
+// }
+        
 function pw_validation(pw){
     
     let check = 0;
-    if (/[A-Z]/.test(pw)) {
-        check += 1;
-    }
-    if (/[a-z]/.test(pw)) {
-        check += 1;
-    }
-    if (/[0-9]/.test(pw)) {
-        check += 1;
-    }
-    if (/[|/?.>,<'";:|]}[{=+-_)(*&^%$#@ !`~]/.test(pw))  {
-        check += 1;
-    }
-
-    if(check >= 3)
+    if (/[A-Z]/.test(pw)) check += 1;
+    if (/[a-z]/.test(pw)) check += 1; 
+    if (/[0-9]/.test(pw)) check += 1;
+    if (/[|/?.>,<'";:|]}[{=+-_)(*&^%$#@ !`~]/.test(pw)) check += 1;
+    
+    if(check >= 3) 
         return true
-    else
+    else 
         return false
 }
 
-// function email_validation(email){
-//     console.log(email)
-//     email = JSON.parse(email)
-//     pool.query(
-//         'select * from user where email = ?',
-//         [email],
-//         (err, results, fields) => {
-//             // console.log(results.length)
-//             if(err){
-//                 console.log(err);
-//                 return false
-//             }
-//             if(results.length > 0)
-//                 return false
-//             else
-//                 return true
-//         }
-//     )
+async function isEmailValid(email) {
+    return emailValidator.validate(email)
+}
+
+// function email_validation(e){
+//     var mailformat = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+//     if(e.value.match(mailformat))
+//         return true
+//     else
+//         return false
 // }
 
 module.exports = {
     createUser: (req, res) => {
         const body = req.body;
 
+        // const email_exist = email_exist_check(body.email)
+
         const email_exist = false
+
+        console.log('e?', email_exist)
+        
         pool.query(
             'select * from user where email = ?',
             [body.email],
             (err, results, fields) => {
-                // console.log(results.length)
+
+                console.log(results.length)
+
                 if(err){
                     console.log(err);
                     res.status(500).json({
@@ -62,13 +69,17 @@ module.exports = {
                     return;
                 }
 
+                console.log('results:',results)
+
                 if(results.length > 0)
                     email_exist = true;
             }
         )
 
+        console.log('email exists?', email_exist)
+
         if(!email_exist){
-            if(pw_validation(body.password)){
+            if(pw_validation(body.password) && isEmailValid(body.email)){
                 pool.query(
                     'insert into user(name, email, password) values(?,?,?)',
                     [
@@ -113,11 +124,35 @@ module.exports = {
                     }
                 );
             }else{
-                console.log('Invalid password')
+                // const type = -1;
+                // if(email_validation(body.email))
+                //     type = 1 // invalid password
+                // else if(pw_validation(body.password))
+                //     type = 2 // invalid email
+                // else
+                //     type = 3 // both invalid
+
+                // if(type == 1)
+                // {
+                //     console.log('Invalid password')
+                //     res.status(400).json({
+                //         'message': "Client Error Response. (Invalid Password)"
+                //     })
+                //     return;
+                // }
+
+                // if(type == 2){
+                //     console.log('Invalid email')
+                //     res.status(400).json({
+                //         'message': "Client Error Response. (Invalid E-mail)"
+                //     })
+                //     return;
+                // }
+
+                console.log('Invalid email & password')
                 res.status(400).json({
-                    'message': "Client Error Response. (Invalid Password)"
+                    'message': "Client Error Response. (Invalid E-mail & Password)"
                 })
-                return;
             }
         }else{
             res.status(403).json({
@@ -149,6 +184,7 @@ module.exports = {
                     return;
                 }
                 
+                console.log(`get user with id ${id}`)
                 res.status(200).json({
                     'data': {
                         'user':{

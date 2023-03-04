@@ -1,4 +1,4 @@
-const mysql = require('mysql2')
+const mysql = require('mysql2/promise')
 
 const DB_PORT = 3306
 const DB_HOST = "mysql00.cooo3yiqpu2z.ap-northeast-1.rds.amazonaws.com"
