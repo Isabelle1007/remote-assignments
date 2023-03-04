@@ -5,4 +5,4 @@ router.post('/', createUser);
 // router.get('/', getUsers);
 router.get('/', getUserById);
 
-module.exports = router;
+module.exports = router;``
