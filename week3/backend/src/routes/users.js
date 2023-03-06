@@ -3,67 +3,73 @@ const pool = require('../db')
 const validation = require('../utils/validation')
 const search = require('../utils/search')
 
-// API create a new user
-router.post('/users', async (req, res) => {
+// // API create a new user
+// router.post('/users', async (req, res) => {
 
-    if(!req.header('Content-Type', 'application/json')){
-        res.status(400).json('Client Error Response (Invalid Content-Type)')
-        return
-    }
+//     console.log('post User API')
+//     if(!req.header('Content-Type', 'application/json')){
+//         console.log('Invalid Content-Type')
+//         res.status(400).json('Client Error Response (Invalid Content-Type)')
+//         return
+//     }
     
-    const requestDate = new Date().toUTCString();
-    if(!req.header('Request-Date', requestDate)){
-        res.status(400).json('Client Error Response (Invalid Request-Date)')
-        return
-    }
+//     const requestDate = new Date().toUTCString();
+//     if(!req.header('Request-Date', requestDate)){
+//         console.log('Invalid Request-Date')
+//         res.status(400).json('Client Error Response (Invalid Request-Date)')
+//         return
+//     }
 
-    // check eamil uniqueness
-    const { name, email, password } = req.body;
-    const email_exist = await search.searchByEamil(email);
-    if(email_exist){
-        res.status(403).json('Email Already Exists.')
-        return
-    }
+//     // check eamil uniqueness
+//     const { name, email, password } = req.body;
+//     const email_exist = await search.searchByEamil(email);
+//     if(email_exist){
+//         console.log('Email Already Exists')
+//         res.status(403).json('Email Already Exists.')
+//         return
+//     }
 
-    // name validation
-    const name_valid = validation.name_validation(name);
-    if(!name_valid){
-        res.status(400).json('Client Error Response (Name Invalid)')
-        return
-    }
+//     // name validation
+//     const name_valid = validation.name_validation(name);
+//     if(!name_valid){
+//         console.log('Invalid Name')
+//         res.status(400).json('Client Error Response (Name Invalid)')
+//         return
+//     }
 
-    // email validation
-    const email_valid = validation.em_validation(email);
-    if(!email_valid){
-        res.status(400).json('Client Error Response (Email Invalid)')
-        return
-    }
+//     // email validation
+//     const email_valid = validation.em_validation(email);
+//     if(!email_valid){
+//         console.log('Invalid Email')
+//         res.status(400).json('Client Error Response (Email Invalid)')
+//         return
+//     }
 
-    // password validation
-    const pw_valid = validation.pw_validation(password);
-    if(!pw_valid){
-        res.status(400).json('Client Error Response (Password Invalid)')
-        return
-    }
+//     // password validation
+//     const pw_valid = validation.pw_validation(password);
+//     if(!pw_valid){
+//         console.log('Invalid Password')
+//         res.status(400).json('Client Error Response (Password Invalid)')
+//         return
+//     }
 
-    // insert into DB
-    const q = "insert into user (name, email, password) values (?, ?, ?)"
-    const values = [name, email, password]
-    const [rows, fields] = await pool.execute(q, values);
-    const date = res.get('Request-Date');
-    // console.log(date)
-    const result = {
-        'data': {
-            'user':{
-                'id': rows.insertId,
-                'name': name,
-                'email': email
-            },
-            'date': date
-        }
-    }
-    res.status(200).json(result)
-})
+//     // insert into DB
+//     const q = "insert into user (name, email, password) values (?, ?, ?)"
+//     const values = [name, email, password]
+//     const [rows, fields] = await pool.execute(q, values);
+//     const date = res.get('Request-Date');
+//     const result = {
+//         'data': {
+//             'user':{
+//                 'id': rows.insertId,
+//                 'name': name,
+//                 'email': email
+//             },
+//             'date': date
+//         }
+//     }
+//     res.status(200).json(result)
+// })
 
 // API get all users
 router.get('/all', async (req, res) => {

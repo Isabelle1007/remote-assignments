@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../api'
+import './SignUp.css'
 
-const SignUp = () => {
+export default function SignUp({}){
 
     const [user, setUser] = useState({
         name: "", 
         email: "", 
         password: ""
     })
+
+    const [msg, setMsg] = useState()
 
     const navigate = useNavigate()
 
@@ -18,10 +21,10 @@ const SignUp = () => {
 
     const handleClick = async (e) => {
         e.preventDefault()
-        console.log(user)
         try{
-            await axios.post('/users', user)
-            navigate('/users')
+            const response = await axios.post('/users', user)
+            setMsg(response.data.data.user)
+            // navigate('/users')
         }catch(err){
             console.log(err)
         }
@@ -29,17 +32,17 @@ const SignUp = () => {
 
     return(
         <div>
-            <div className="form">
-                <h1>Sign Up</h1>
-                <input type="text" placeholder="name" onChange={handleChange} name="name"></input>
-                <input type="email" placeholder="email" onChange={handleChange} name="email"></input>
-                <input type="password" placeholder="password" onChange={handleChange} name="password"></input>
+            <div align='center' >
+                <h1> Sign Up</h1>
+                <div className='input_form' >
+                    <input type="text" placeholder="name" value={user.name} onChange={handleChange} name="name" />
+                    <input type="email" placeholder="email" value={user.email} onChange={handleChange} name="email"></input>
+                    <input type="password" placeholder="password" value={user.password} onChange={handleChange} name="password"></input>
+                </div>
                 <button onClick={handleClick}>Sign Up</button>
+                <p>{JSON.stringify(msg)}</p>
             </div>
-            <button><Link to='/users'>View All Users</Link></button>
+            {/* <button><Link to='/users'>View All Users</Link></button> */}
         </div>
-        
     )
 }
-
-export default SignUp
