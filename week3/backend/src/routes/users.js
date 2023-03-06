@@ -52,7 +52,7 @@ router.get('/', async (req, res) => {
         res.status(200).json(result)
     }else{
         console.log(id)
-        res.status(400).send(`Client Response Error (User doesn't exist)`)
+        res.status(400).json(`Client Response Error (User doesn't exist)`)
     }
 })
 

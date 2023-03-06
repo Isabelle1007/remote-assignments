@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
 
 router.get('/healthcheck', async (req, res, _next) => {
     try {
-        res.json('This is the healthcheck API');
+        res.json('OK');
     } catch (err) {
         res.send(err);
     }

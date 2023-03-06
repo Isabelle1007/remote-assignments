@@ -8,6 +8,15 @@ app.use(cors())
 const dotenv = require('dotenv');
 dotenv.config();
 
+// const path = require('path')
+// const _dirname = path.dirname("")
+// const buildPath = path.join(_dirname, "../../frontend/build/static/index.html")
+
+app.use(express.json())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+// app.use(express.static(buildPath))
+
 // Add CORS headers middleware
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,10 +28,6 @@ app.use((req, res, next) => {
     res.setHeader('Request-Date', new Date().toUTCString());
     next();
 });
-
-app.use(express.json())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: false}))
 
 // API create a new user
 const pool = require('./db')
