@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../api'
-import './SignUp.css'
+import './style.css'
 
 export default function SignUp({}){
 
@@ -27,6 +27,7 @@ export default function SignUp({}){
             // navigate('/users')
         }catch(err){
             console.log(err)
+            setMsg(err.response.data)
         }
     }
 
@@ -42,7 +43,7 @@ export default function SignUp({}){
                 <button onClick={handleClick}>Sign Up</button>
                 <p>{JSON.stringify(msg)}</p>
             </div>
-            {/* <button><Link to='/users'>View All Users</Link></button> */}
+            {/* <button className="btn2"><Link to='/users'>View All Users</Link></button> */}
         </div>
     )
 }

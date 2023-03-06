@@ -14,7 +14,7 @@ input{
 }
 
 button {
-    margin: 10px;
+    margin-top: 10px;
     width: 200px;
     padding: 5px;
     background-color: rgb(156, 224, 245);
@@ -23,4 +23,13 @@ button {
     font-size: 16px;
     font-weight: 900;
     cursor: pointer;
+}
+
+.user{
+    margin-left: 20px;
+}
+
+.btn2{
+    background-color: rgb(245, 233, 156);
+    border: rgb(252, 252, 217) solid 2px;
 }
