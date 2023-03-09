@@ -8,14 +8,25 @@ app.use(cors())
 const dotenv = require('dotenv');
 dotenv.config();
 
-// const path = require('path')
-// const _dirname = path.dirname("")
-// const buildPath = path.join(_dirname, "../../frontend/build/static/index.html")
-
 app.use(express.json())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
+
+// const path = require('path')
+// const _dirname = path.dirname("")
+// const buildPath = path.join(_dirname, "../../frontend/build")
 // app.use(express.static(buildPath))
+
+// app.get('/*', function(req, res){
+//     res.sendFile(
+//         path.join(__dirname, "../../frontend/build/index.html"),
+//         function(err){
+//             if(err){
+//                 res.status(500).json(err);
+//             }
+//         }
+//     );
+// })
 
 // Add CORS headers middleware
 app.use((req, res, next) => {
